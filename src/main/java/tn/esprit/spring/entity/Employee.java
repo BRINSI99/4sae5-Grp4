@@ -1,17 +1,15 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,15 +23,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Company extends User implements Serializable {
-
-    private String resgistrationNumber;
-    private String name;
-    private int Capacity;
+public class Employee extends User implements Serializable {
+    @Column(unique = true)
+    private String cin;
+    private String firstName;
+    private String lastName;
+    private int Age;
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<Domain> domains;
+    private Set<Position> positions;
+    @OneToOne
+    private Invitations invitation;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<FeedBack> feedBacks;
 }

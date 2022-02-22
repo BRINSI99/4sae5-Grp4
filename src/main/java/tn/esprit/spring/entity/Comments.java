@@ -1,26 +1,34 @@
 package tn.esprit.spring.entity;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-@Table( name = "T_Comments")
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Comments implements Serializable {
-    private static final long serialVersionUID = 1L;
+@AllArgsConstructor
+public class Comments implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="COMMENT_ID")
-    private Long id;
-    @Column(name="Comment_Text")
-    private String text;
+    private int id;
+    private String content;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateComment;
     @ManyToOne
-    Post posts;
+    private Post post;
+
 }
