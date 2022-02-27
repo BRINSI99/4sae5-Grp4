@@ -2,6 +2,7 @@ package tn.esprit.spring.service;
 
 import tn.esprit.spring.entity.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IMessage {

@@ -7,20 +7,22 @@ import tn.esprit.spring.repository.MessageRepository;
 import tn.esprit.spring.service.IMessage;
 import tn.esprit.spring.service.WsService;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class WsController {
+public class WsController implements Serializable {
 
     @Autowired
     private WsService service;
     @Autowired
     IMessage messageService;
 
-    // localhost:8080/send-message
+
+    // localhost:8080/send-message/1
     @PostMapping("/send-message")
     public Message sendMessage(@RequestBody Message message) {
-
         return service.AddMessage(message);
     }
 
