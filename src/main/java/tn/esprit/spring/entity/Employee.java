@@ -30,5 +30,4 @@ public class Employee extends User implements Serializable {
     @OneToMany(mappedBy = "employee")
     private Set<Message> messages;
 
-
 }
