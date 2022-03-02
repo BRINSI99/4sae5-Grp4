@@ -20,21 +20,25 @@ public class WsService implements IMessage {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    // Add msg--------------------------------------------------------------------------------
+    // Add msg and Detect bad words ---------------------------------------------------------------------
     public Message AddMessage(Message message, Employee employee) {
-        message.setDateMessage(new Date());
-        message.setUser(employee);
-        message = messageRepository.save(message);
+        List<String> content = new ArrayList<String>();
+        // Bad Words Searcher
         BufferedReader reader;
+        String line = null;
         try {
             reader = new BufferedReader(new FileReader(
                     "C:/Users/nassi/Desktop/Nassim/src/test/java/tn/esprit/spring/bad_words.txt"));
-            String line = reader.readLine();
+
+            line = reader.readLine();
+
             while (line != null) {
-                if (message.getMessage().contains(line))
-                {
+                if (message.getMessage().contains(line)) {
+                    content.add(line);
                     System.out.println("You are using bad words");
+                    System.out.println(content);
                 }
+
                 // read next line
                 line = reader.readLine();
             }
@@ -42,7 +46,15 @@ public class WsService implements IMessage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return message;
+        if (content.size() > 0) {
+            return null;
+        } else {
+            message.setDateMessage(new Date());
+            message.setEmployee(employee);
+            message = messageRepository.save(message);
+
+            return message;
+        }
     }
 
     // Delete msg

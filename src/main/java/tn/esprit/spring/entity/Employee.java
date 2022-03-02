@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,18 @@ public class Employee extends User implements Serializable {
     private String firstName;
     private String lastName;
     private int Age;
+
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Position> positions;
+
     @OneToOne
     private Invitations invitation;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private Set<Message> messages;
+
+    @OneToMany(mappedBy = "employees")
+    private Set<Car> cars;
 
 }

@@ -1,6 +1,6 @@
 package tn.esprit.spring.controller;
 
-import com.stripe.model.Coupon;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,13 +34,15 @@ public class PaymentController {
 	}
 
 	@PostMapping("/create-charge")
-	public @ResponseBody Response createCharge(String email, String token) {
+	public @ResponseBody Response createCharge(String email, String token) throws StripeException {
 
 		if (token == null) {
 			return new Response(false, "Stripe payment token is missing. please try again later.");
 		}
 
-		String chargeId = stripeService.createCharge(email, token, 999);// 9.99 usd
+		String chargeId = stripeService.createCharge(email, token, 999);// 9,99 usd
+		System.out.println("Charge id = "+chargeId);
+		System.out.println("Charge email = "+email);
 
 		if (chargeId == null) {
 			return new Response(false, "An error accurred while trying to charge.");
