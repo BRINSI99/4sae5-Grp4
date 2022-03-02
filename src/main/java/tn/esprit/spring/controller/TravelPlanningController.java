@@ -1,8 +1,17 @@
 package tn.esprit.spring.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import tn.esprit.spring.entity.SearchCritere;
+import tn.esprit.spring.entity.TravelExcel;
 import tn.esprit.spring.entity.TravelPlanning;
 
 import tn.esprit.spring.service.TravelPlanningServiceImp;
@@ -22,6 +32,7 @@ public class TravelPlanningController {
 	
 	@Autowired
 	TravelPlanningServiceImp travelPlanningService;
+	
 	
 	// http://localhost:8089/SpringMVC/retrieve-all-travels
 
@@ -39,6 +50,30 @@ public class TravelPlanningController {
 	public TravelPlanning retrieveTravelPlanning(@PathVariable("travelplanning-Id") Long Id) {
 	return travelPlanningService.getTravelPlanningById(Id);
 	}
+	
+	// http://localhost:8089/SpringMVC/retrieve-travel-critere
+		@PostMapping("/retrieve-travel-critere")
+		@ResponseBody
+		public Map<TravelPlanning, Integer> retrieveTravelPlanningByCritere(@RequestBody SearchCritere t) {
+			Map<TravelPlanning,Integer> scores=new HashMap<TravelPlanning, Integer>();
+			for(TravelPlanning travel : travelPlanningService.getAllTravelPlanning()) {
+				int score=0;
+				if(travel.getDestination().compareTo(t.getDest())==0) {
+					score=score+500;
+				}
+				int diffDuration=Math.abs(travel.getDuration()-t.getDuration());
+				score=score+400 -(400*diffDuration);
+				if(travel.getMissionType().compareTo(t.getMission())==0) {
+					score=score+200;
+				}
+			    if(score>=400) {
+					scores.put(travel, score);
+  	
+			    }
+
+			}
+		return scores;
+		}
 	
 	 // http://localhost:8089/SpringMVC/add-Travel
 	@PostMapping("/add-Travel")
@@ -64,6 +99,24 @@ public class TravelPlanningController {
 		return travelPlanningService.updateTravelPlanning(t);
 
 		}
+		
+		
+	
+		@GetMapping("/articles/export/excel")
+	    public void exportToExcel(HttpServletResponse response) throws IOException {
+	    	System.out.println("Export to Excel ...");
+	        response.setContentType("application/octet-stream");
+	        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        String currentDateTime = dateFormatter.format(new Date());
+	        String headerKey = "Content-Disposition";
+	        String headerValue = "attachment; filename=articles_" + currentDateTime + ".xlsx";
+	        response.setHeader(headerKey, headerValue);
+	        List<TravelPlanning> listTravels = travelPlanningService.getAllTravelPlanning();
+	        TravelExcel excel = new TravelExcel(listTravels);
+	        excel.export(response);    
+	    }  
+		
+		
 	
 	
 }

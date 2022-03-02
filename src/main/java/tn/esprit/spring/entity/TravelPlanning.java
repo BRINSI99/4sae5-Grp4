@@ -15,7 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table( name = "T_TravelPlanning")
-@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class TravelPlanning implements Serializable {
@@ -25,13 +24,15 @@ public class TravelPlanning implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long Id;
+    @Column(name="Destination")
     private String Destination;
+    @Column(name="Duration")
     private int Duration;
     @Temporal(TemporalType.DATE)
     private Date StartDate;
     @Temporal(TemporalType.DATE)
     private Date EndDate;
-
+ 
     @Enumerated(EnumType.STRING)
     private MissionType missionType;
 

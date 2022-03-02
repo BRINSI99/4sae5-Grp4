@@ -14,7 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table( name = "T_Reservation")
-@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reservation implements Serializable {
 

@@ -3,6 +3,8 @@ package tn.esprit.spring.service;
 import java.util.List;
 
 import tn.esprit.spring.entity.Reservation;
+import tn.esprit.spring.entity.StatistiqueReservation;
+
 
 
 
@@ -17,5 +19,7 @@ public interface IReservationService {
 	Reservation getReservationById(long IdReservation);
 	
     void deleteReservationById(long IdReservation);
+    
+    public List<StatistiqueReservation> statereservation();
 
 }

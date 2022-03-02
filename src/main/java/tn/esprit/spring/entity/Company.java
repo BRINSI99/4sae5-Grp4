@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table( name = "T_Company")
-@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter

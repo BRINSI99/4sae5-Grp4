@@ -3,17 +3,24 @@ package tn.esprit.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
 import tn.esprit.spring.entity.Reservation;
+import tn.esprit.spring.entity.StatistiqueReservation;
 import tn.esprit.spring.service.ReservationServiceImp;
+
 
 
 
@@ -51,6 +58,14 @@ public class ReservationController {
 					reservationService.addReservation(r);
 					return r;
 					}	
+				 // http://localhost:8089/SpringMVC/pdf/reservation
+				@PostMapping("/pdf/reservation")
+				@ResponseBody
+				public String getPdfReservation()
+					{
+					reservationService.pdfCreation();
+					return "pdf created successfully";
+					}
 			
 				// http://localhost:8089/SpringMVC/remove-reservation/{reservation-id}
 				@DeleteMapping("/remove-reservation/{reservation-id}")
@@ -63,11 +78,18 @@ public class ReservationController {
 				@PutMapping("/modify-reservation")
 				@ResponseBody
 				public Reservation modifyreservation(@RequestBody Reservation r) {
-
 				return reservationService.updateReservation(r);
 
 				}
-					
+				
+				@RequestMapping(value = "/stat-reservation", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+			    @ResponseBody
+			    public List<StatistiqueReservation> statreservation(){
+			        return reservationService.statereservation();
+			    }
+}
+				
+				
 					
 
-}
+

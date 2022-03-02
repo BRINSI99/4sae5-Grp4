@@ -46,4 +46,17 @@ TravelRepository travelRepository;
 		
 	}
 
+	@Override
+	public TravelPlanning getTravelPlanningByDestination(String Destination) {
+		TravelPlanning t = travelRepository.getTravellerPlanningByDestination(Destination);
+		TravelPlanning  travelPlanningMapper = new TravelPlanning();
+		if (null!=t) {
+			travelPlanningMapper.setId(0);
+			travelPlanningMapper.setDestination(Destination);
+			
+		}
+		return travelPlanningMapper;
+		
+	}
+
 }
