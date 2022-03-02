@@ -1,6 +1,7 @@
 package tn.esprit.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.User;
 import tn.esprit.spring.repository.UserRepository;
@@ -11,6 +12,8 @@ import java.util.List;
 public class UserServiceImpl implements IUserService{
     @Autowired
     UserRepository userRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public List<User> GetAllUsers() {
         return (List<User>) userRepository.findAll();
@@ -24,6 +27,8 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User SaveUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive(true);
         userRepository.save(user);
         return user;    }
 
@@ -35,9 +40,15 @@ public class UserServiceImpl implements IUserService{
 
     }
 
+
     @Override
     public void UpdateUser(User user) {
         userRepository.save(user);
 
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

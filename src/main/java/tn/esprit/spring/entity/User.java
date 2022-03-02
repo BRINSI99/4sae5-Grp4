@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -30,8 +31,10 @@ public   class User implements Serializable{
     private String password;
     private String phoneNumber;
     private String Photo;
-    @OneToMany
-    private List<Role> role;
+    private Boolean active;
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch
+            = FetchType.EAGER)
+    private Set<Role> roles;
 
 
 

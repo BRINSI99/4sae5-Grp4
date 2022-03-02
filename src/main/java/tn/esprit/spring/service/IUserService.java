@@ -13,5 +13,5 @@ public interface IUserService {
     public void UpdateUser (User user);
 
 
-
+    User findUserByUsername(String username);
 }
