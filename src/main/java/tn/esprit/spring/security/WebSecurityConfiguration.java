@@ -22,9 +22,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests() .antMatchers("/registration").permitAll()
-                .antMatchers("/getRevenuBrutProduit/{idProduit}/{startDate}/{endDate}").access("hasRole('SUPERADMIN')")
-                .antMatchers("/get**}").access("hasRole('ADMIN')")
-                .antMatchers("/retrieve-all-clients").access("hasRole('ADMIN')")
+               // .antMatchers("/getRevenuBrutProduit/{idProduit}/{startDate}/{endDate}").access("hasRole('SUPERADMIN')")
+               // .antMatchers("/get**}").access("hasRole('ADMIN')")
+               // .antMatchers("/retrieve-all-clients").access("hasRole('ADMIN')")
                 .anyRequest()
                 .authenticated()
                 .and()
