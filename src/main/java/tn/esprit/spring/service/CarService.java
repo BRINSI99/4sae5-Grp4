@@ -1,9 +1,9 @@
 package tn.esprit.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entity.Car;
-import tn.esprit.spring.entity.Employee;
 import tn.esprit.spring.repository.CarRepository;
 
 import java.util.Date;
@@ -58,6 +58,11 @@ public class CarService implements ICar {
     @Override
     public List<String> getDecPrice() {
         return carRepository.Desprices();
+    }
+
+    @Override
+    public List<String> getAverageRating() {
+        return carRepository.getAverageRating();
     }
 
 }

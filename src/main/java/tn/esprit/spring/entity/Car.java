@@ -22,12 +22,14 @@ public class Car implements Serializable {
     private String matricule;
     private String image;
     private float price;
+    private float rating;
     @Temporal(TemporalType.TIMESTAMP)
     private Date StartDateLocation;
     @Temporal(TemporalType.TIMESTAMP)
     private Date EndDateLocation;
     private float day;
     @ManyToOne
+    @JoinColumn(name="employee_id")
     Employee employees;
 
 }

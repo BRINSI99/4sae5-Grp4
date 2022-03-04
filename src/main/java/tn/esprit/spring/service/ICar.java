@@ -15,5 +15,5 @@ public interface ICar {
     List<String> getAllCarModel();
     List<String> getAscPrice();
     List<String> getDecPrice();
-
+    List<String> getAverageRating();
 }

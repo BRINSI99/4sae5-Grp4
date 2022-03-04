@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.entity.Car;
 import tn.esprit.spring.service.ICar;
+
+import javax.websocket.server.PathParam;
 import java.io.Serializable;
 import java.util.List;
 
@@ -70,6 +72,12 @@ public class CarController implements Serializable {
     @ResponseBody
     public List<String> getDecPrice() {
         return iCar.getDecPrice();
+    }
+
+    // http://localhost:8080/getCarByModel
+    @GetMapping("/getAverageRating")
+    public List<String> getAverageRating() {
+        return iCar.getAverageRating();
     }
 
 }

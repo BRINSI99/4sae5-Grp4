@@ -18,6 +18,7 @@ import tn.esprit.spring.repository.ResponseRepository;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -71,8 +72,8 @@ public class StripeService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setTo(to);
-        message.setSubject("Payment Successful !");
-        message.setText("Dear Mr/Ms ," + email + " you Payed " + amount / 100.0 + "$");
+        message.setSubject("Successful payment !");
+        message.setText("Dear Mr/Ms ," + email + " you Payed " + amount + "$");
         mailSender.send(message);
         //end Mailing API
 
@@ -112,13 +113,19 @@ public class StripeService {
             document.open();
             //Title
             Paragraph title = new Paragraph("Payment receipt");
+            Date date=new Date(System.currentTimeMillis());
+            Paragraph d =new Paragraph(date.toString());
             title.setAlignment(Element.ALIGN_CENTER);
+            d.setAlignment(Element.ALIGN_CENTER);
             Chunk linebreak = new Chunk(new DottedLineSeparator());
+
             document.add(title);
             document.add(linebreak);
+            document.add(d);
+            document.add(linebreak);
             document.add(table);
-
             document.close();
+
             System.out.println("Pdf Generated successfully.");
         } catch (DocumentException e) {
             e.printStackTrace();

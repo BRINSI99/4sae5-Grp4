@@ -22,11 +22,6 @@ public class PaymentController {
 		this.stripeService = stripeService;
 	}
 
-	@GetMapping("/")
-	public String homepage() {
-		return "homepage";
-	}
-
 	@GetMapping("/charge")
 	public String chargePage(Model model) {
 		model.addAttribute("stripePublicKey", API_PUBLIC_KEY);
@@ -40,7 +35,7 @@ public class PaymentController {
 			return new Response(false, "Stripe payment token is missing. please try again later.");
 		}
 
-		String chargeId = stripeService.createCharge(email, token, 999);// 9,99 usd
+		String chargeId = stripeService.createCharge(email, token, 999*100);// 999 usd
 		System.out.println("Charge id = "+chargeId);
 		System.out.println("Charge email = "+email);
 

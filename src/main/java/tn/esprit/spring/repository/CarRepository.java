@@ -20,4 +20,7 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
     @Query("SELECT price FROM Car order by price DESC ")
     public List<String> Desprices();
 
+    @Query("SELECT carModel,avg (rating) FROM Car group by carModel having count (carModel)>1 ")
+    List<String> getAverageRating();
+
 }

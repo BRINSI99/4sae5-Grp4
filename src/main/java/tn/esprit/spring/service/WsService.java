@@ -2,6 +2,7 @@ package tn.esprit.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.spring.entity.Employee;
 import tn.esprit.spring.entity.Message;
 import tn.esprit.spring.repository.MessageRepository;
