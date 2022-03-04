@@ -68,29 +68,38 @@ repository.saveAndFlush(cl);
 return cl;
 	}
 
-	@Override
-	public List<Reclamations> getAllReclamations() {
-		return repository.findMealByStatus2();
-	}
+	
 
-	@Override
-	public List<Reclamations> getAllReclamationss() {
-		// TODO Auto-generated method stub
-		return repository.findMealByStatus1();
-	}
+ 
 
-	@Override
-	public List<Reclamations> getAllReclamationsss() {
-		return repository.findMealByStatus0();
-	}
+	 
 
 	@Override
 	public Status convertToEntityAttribute() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Reclamations> getAllReclamations(Long idUser) {
+		// TODO Auto-generated method stub
+		  return repository.findMealByStatus2(idUser);
+	}
+
+	@Override
+	public List<Reclamations> getAllReclamationss(Long idUser) {
+		// TODO Auto-generated method stub
+		return repository.findMealByStatus1(idUser);
+	}
+
+	@Override
+	public List<Reclamations> getAllReclamationsss(Long idUser) {
+		// TODO Auto-generated method stub
+		return repository.findMealByStatus0(idUser);
+	}
+	 
 	
-	
+
 	
 	
 	

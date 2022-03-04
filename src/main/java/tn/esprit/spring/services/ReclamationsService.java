@@ -23,9 +23,9 @@ public interface ReclamationsService {
 	
 	
 	
-	List<Reclamations> getAllReclamations();
-	List<Reclamations> getAllReclamationss();
-	List<Reclamations> getAllReclamationsss();
+	List<Reclamations> getAllReclamations(Long idUser);
+	List<Reclamations> getAllReclamationss(Long idUser);
+	List<Reclamations> getAllReclamationsss(Long idUser);
 
 
 	Status convertToEntityAttribute();

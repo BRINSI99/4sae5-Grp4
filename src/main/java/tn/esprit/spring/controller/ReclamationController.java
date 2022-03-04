@@ -120,13 +120,13 @@ public class ReclamationController {
 	
 	
 	
-	@GetMapping("/stat")
-	public String getAllEmployee(Model model) {	
+	@GetMapping("/stat/{id}")
+	public String getAllEmployee(Model model,@PathVariable("id")long idUser  ) {	
 		
 		  
-		List<Reclamations> dataList = cs.getAllReclamations();
-		List<Reclamations> dataList1 = cs.getAllReclamationss();
-		List<Reclamations> dataList0= cs.getAllReclamationsss();
+		List<Reclamations> dataList = cs.getAllReclamations(idUser);
+		List<Reclamations> dataList1 = cs.getAllReclamationss(idUser);
+		List<Reclamations> dataList0= cs.getAllReclamationsss(idUser);
 		int s=0;
 		 int m=0;
      	int y=0;
