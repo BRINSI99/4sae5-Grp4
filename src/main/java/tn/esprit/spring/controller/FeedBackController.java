@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
  
 import tn.spring.entities.FeedBack;
+<<<<<<< HEAD
 import tn.spring.entities.Reclamations;
 import tn.spring.services.FeedBackService;
+=======
+ import tn.spring.services.FeedBackService;
+>>>>>>> origin/Walid-Gammoudi
 import tn.spring.services.IEncryption;
 
  
@@ -44,7 +48,15 @@ public class FeedBackController {
 		return listClaim; 	
 	}
 	 
+<<<<<<< HEAD
 
+=======
+	
+	
+	
+	
+	
+>>>>>>> origin/Walid-Gammoudi
 	@PostMapping("/addFeedBack/{id}")
 	@ResponseBody
 	
@@ -57,7 +69,13 @@ public class FeedBackController {
 	}
 	
 	
+<<<<<<< HEAD
 
+=======
+ 
+	
+	
+>>>>>>> origin/Walid-Gammoudi
 	
 	@PutMapping("/modify")
 	@ResponseBody
@@ -74,11 +92,14 @@ public class FeedBackController {
   	
   	
 
+<<<<<<< HEAD
 	@PutMapping("/modifyFeedBack/{id}")
 	@ResponseBody
 	public FeedBack ModifyFeedBack(@PathVariable("id") Integer idClaim,@RequestBody FeedBack t) {
 	return cs.updateClaimById(t, idClaim);
 	}
+=======
+>>>>>>> origin/Walid-Gammoudi
 	
 	 
 	
