@@ -7,12 +7,14 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import tn.spring.entities.Company;
@@ -174,6 +176,25 @@ public class FeedBackImpl implements FeedBackService {
 			return null;
 		 }
 		 }
+
+
+
+
+
+
+
+	@Override
+	public List<FeedBack> findByCompanies( Long a) {
+	 
+	List<FeedBack> feed =repository.findByCompanies( a);
+		 
+
+		
+		return feed;
+	}
+
+
+	 
 	
 	
 	

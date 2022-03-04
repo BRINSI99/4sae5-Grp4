@@ -1,6 +1,12 @@
 package tn.spring.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
- 
+import com.lowagie.text.DocumentException;
+
 import tn.spring.entities.FeedBack;
 import tn.spring.entities.Reclamations;
+import tn.spring.entities.User;
 import tn.spring.services.FeedBackService;
 import tn.spring.services.IEncryption;
+import tn.spring.services.UserPDFExporter;
 
  
 
@@ -55,7 +64,24 @@ public class FeedBackController {
 		
 		
 	}
-	
+	/**exporter fichier pdf avec id comapnies*/
+	   @GetMapping("/exportPDF/{id}")
+	   public void exportToPDF(HttpServletResponse response, @PathVariable("id") long id) throws DocumentException, IOException {
+	       response.setContentType("application/pdf");
+	       DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	       String currentDateTime = dateFormatter.format(new Date());
+	        
+	       String headerKey = "Content-Disposition";
+	       String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+	       response.setHeader(headerKey, headerValue);
+	        
+	       List<FeedBack> dataList= cs.findByCompanies(id);
+		
+	        
+	       UserPDFExporter exporter = new UserPDFExporter(dataList);
+	       exporter.export(response);
+	        
+	   }
 	
 
 	

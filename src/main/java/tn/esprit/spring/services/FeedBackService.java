@@ -21,8 +21,16 @@ public interface FeedBackService {
 		public	String encrypt(String data);
 	     
 	    public	String decrypt(String data);
+	    List<FeedBack> findByCompanies(Long companies_id );
 
 
+	 
+
+
+	 
+
+
+ 
 	     
 	 
 }
