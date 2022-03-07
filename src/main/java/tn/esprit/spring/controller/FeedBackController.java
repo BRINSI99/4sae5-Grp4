@@ -1,9 +1,17 @@
 package tn.spring.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,15 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
- 
+import com.lowagie.text.DocumentException;
+
+import tn.spring.entities.Company;
 import tn.spring.entities.FeedBack;
-<<<<<<<<< Temporary merge branch 1
- import tn.spring.services.FeedBackService;
-=========
 import tn.spring.entities.Reclamations;
+import tn.spring.entities.User;
 import tn.spring.services.FeedBackService;
->>>>>>>>> Temporary merge branch 2
-import tn.spring.services.IEncryption;
+ 
+ 
+import tn.spring.services.UserPDFExporter;
 
  
 
@@ -48,15 +57,7 @@ public class FeedBackController {
 		return listClaim; 	
 	}
 	 
-<<<<<<<<< Temporary merge branch 1
-	
-	
-	
-	
-	
-=========
 
->>>>>>>>> Temporary merge branch 2
 	@PostMapping("/addFeedBack/{id}")
 	@ResponseBody
 	
@@ -64,18 +65,28 @@ public class FeedBackController {
 		
 		cs.CompanyAddToFeedBack(f, id);
 		 
-		
-		
+ 		
 	}
+	/**exporter fichier pdf avec id comapnies*/
+	   @GetMapping("/exportPDF/{id}")
+	   public void exportToPDF(HttpServletResponse response, @PathVariable("id") long id) throws DocumentException, IOException {
+	       response.setContentType("application/pdf");
+	       DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	       String currentDateTime = dateFormatter.format(new Date());
+	        
+	       String headerKey = "Content-Disposition";
+	       String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+	       response.setHeader(headerKey, headerValue);
+	        
+	       List<FeedBack> dataList= cs.findByCompanies(id);
+		
+	        
+	       UserPDFExporter exporter = new UserPDFExporter(dataList);
+	       exporter.export(response);
+	        
+	   }
 	
-	
-<<<<<<<<< Temporary merge branch 1
- 
-	
-	
-=========
 
->>>>>>>>> Temporary merge branch 2
 	
 	@PutMapping("/modify")
 	@ResponseBody
@@ -92,23 +103,21 @@ public class FeedBackController {
   	
   	
 
-<<<<<<<<< Temporary merge branch 1
-=========
 	@PutMapping("/modifyFeedBack/{id}")
 	@ResponseBody
 	public FeedBack ModifyFeedBack(@PathVariable("id") Integer idClaim,@RequestBody FeedBack t) {
 	return cs.updateClaimById(t, idClaim);
 	}
->>>>>>>>> Temporary merge branch 2
 	
+	 
 	 
 	
 	
-	
-	
-	
-	
-	
+	   @GetMapping("/advanced_search")
+	  List<FeedBack> findFeedBackByContentOrId(@RequestParam(required = false) String content,@RequestParam(required = false) Company idCom)
+	   {
+		 return  (List<FeedBack>) cs.findFeedBackByIdOrContent(content,idCom);
+	   }
 	
 	
 	
