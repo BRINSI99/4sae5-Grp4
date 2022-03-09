@@ -3,6 +3,7 @@ package tn.esprit.spring.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import tn.esprit.spring.Repository.ReservationRepository;
 import tn.esprit.spring.entity.Reservation;
 import tn.esprit.spring.entity.StatistiqueReservation;
-
+import com.itextpdf.text.Image;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -57,15 +58,17 @@ public class ReservationServiceImp implements IReservationService {
 
             document.open();
             //Title
+            Image image = Image.getInstance("C:\\Users\\PC\\Desktop\\Stoage\\logo.jpg");
+            image.scaleToFit(90, 90);
+            //Add content to the document using Image object.
+            document.add(image);
             Paragraph title = new Paragraph("Resevation succes");
             Date date = new Date(System.currentTimeMillis());
             Paragraph d = new Paragraph(date.toString());
             title.setAlignment(Element.ALIGN_CENTER);
             d.setAlignment(Element.ALIGN_CENTER);
-          
-        	FileSystemResource file = new FileSystemResource(new File("C:\\Users\\PC\\Desktop\\Stoage\\logo.jpg"));
     
-            Paragraph contact = new Paragraph("Merci, votre réservation a été effectuée avec succès! : ");
+            Paragraph contact = new Paragraph("Merci, votre réservation a été effectuée avec succès!  ");
             contact.setAlignment(Element.ALIGN_CENTER);
             //Generating QrCode
             BarcodeQRCode barcodeQRCode = new BarcodeQRCode("Hana@gmail.com", 1000, 1000, null);
@@ -73,12 +76,11 @@ public class ReservationServiceImp implements IReservationService {
             codeQrImage.scaleAbsolute(300, 300);
             codeQrImage.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
-      
+           
             document.add(d);
-          
+         
             document.add(contact);
             document.add(codeQrImage);
-        
             document.close();
 
             System.out.println("Pdf Generated successfully.");

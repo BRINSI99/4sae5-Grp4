@@ -40,7 +40,7 @@ public class SearchCritereController {
 		}	
 	
 
-	// http://localhost:8089/SpringMVC/remove-critere/{critere-id}
+	// http://localhost:8089/SpringMVC/remove/{critere-id}
 	@DeleteMapping("/remove/{id}")
 	@ResponseBody
 	public void removeReservation(@PathVariable("id") int id) {

@@ -62,7 +62,7 @@ public class TravelPlanningController {
 
 	}
 	
-	// http://localhost:8089/SpringMVC/retrieve-travel/3
+	// http://localhost:8089/SpringMVC/retrieve-travel/5
 	@GetMapping("/retrieve-travel/{travelplanning-Id}")
 	@ResponseBody
 	public TravelPlanning retrieveTravelPlanning(@PathVariable("travelplanning-Id") Long Id) {
@@ -111,6 +111,13 @@ public class TravelPlanningController {
 		travelPlanningService.addTravelPlanning(t);
 		return t;
 		}	
+	@GetMapping("/excel-Travel")
+	@ResponseBody
+	public boolean excelPlanning()
+		{
+		travelPlanningService.generateExcel();
+		return true;
+		}
 	
 	
 	

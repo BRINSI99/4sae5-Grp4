@@ -11,7 +11,7 @@ public interface ITravelFavorite {
 	
 	 TravelFavorite saveFavorite(TravelFavorite travelFavorite);
 	
-	 List <TravelFavorite>find(String TravelId, String user_id);
+	 List <TravelFavorite>findByUser(int user_id);
 
 	 void removeTravelFavorite(TravelFavorite favorite);
 

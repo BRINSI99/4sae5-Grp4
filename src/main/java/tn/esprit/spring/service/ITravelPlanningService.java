@@ -10,6 +10,8 @@ public interface ITravelPlanningService {
 	    
 		TravelPlanning addTravelPlanning(TravelPlanning t);
 		
+	    boolean generateExcel();
+		
 		TravelPlanning updateTravelPlanning(TravelPlanning t);
 		 
 		TravelPlanning getTravelPlanningById(long Id);

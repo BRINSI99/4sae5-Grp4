@@ -115,6 +115,56 @@ TravelRepository travelRepository;
 		
 	}
 
+	@Override
+	public boolean generateExcel() {
+		try   
+		{  
+		//declare file name to be create   
+		String filename = "C:\\Users\\PC\\Desktop\\PdfFiles\\TravelPlanning.xls"; 
+		List<TravelPlanning> list=travelRepository.findAll();
+		//creating an instance of HSSFWorkbook class  
+		HSSFWorkbook workbook = new HSSFWorkbook();  
+		//invoking creatSheet() method and passing the name of the sheet to be created   
+		HSSFSheet sheet = workbook.createSheet("TravelPlanning");   
+		//creating the 0th row using the createRow() method  
+		HSSFRow rowhead = sheet.createRow((short)0);  
+		//creating cell by using the createCell() method and setting the values to the cell by using the setCellValue() method  
+		rowhead.createCell(0).setCellValue("Destination");  
+		rowhead.createCell(1).setCellValue("Duration");  
+		rowhead.createCell(2).setCellValue("Start_Date");  
+		rowhead.createCell(3).setCellValue("End_Date"); 
+		
+		for(TravelPlanning t:list) {
+			HSSFRow row = sheet.createRow((short)t.getId()); 
+
+			row.createCell(0).setCellValue(t.getDestination());  
+			row.createCell(1).setCellValue(t.getDuration());  
+			row.createCell(2).setCellValue(t.getStartDate());  
+			row.createCell(3).setCellValue(t.getEndDate());
+		
+		}
+ 
+		
+		
+	
+		  
+		
+		FileOutputStream fileOut = new FileOutputStream(filename);  
+		workbook.write(fileOut);  
+		//closing the Stream  
+		fileOut.close();  
+		//closing the workbook  
+		workbook.close();  
+		//prints the message on the console  
+		System.out.println("Excel file has been generated successfully.");  
+		}   
+		catch (Exception e)   
+		{  
+		e.printStackTrace();  
+		}
+		return true;
+	}
+
 
 
 	

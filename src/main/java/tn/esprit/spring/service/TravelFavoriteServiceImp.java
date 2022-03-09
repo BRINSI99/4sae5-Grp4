@@ -23,15 +23,20 @@ public class TravelFavoriteServiceImp implements ITravelFavorite{
 		return travelFavoriteRepository.save(travelFavorite);
 	}
 
-	@Override
-	public List<TravelFavorite> find(String TravelId, String user_id) {
-		return null;
-	}
+	
 
 	@Override
 	public void removeTravelFavorite(TravelFavorite favorite) {
 		travelFavoriteRepository.delete(favorite);
 		
+	}
+
+
+
+	@Override
+	public List<TravelFavorite> findByUser(int user_id) {
+		// TODO Auto-generated method stub
+		return travelFavoriteRepository.findAll().stream().filter(x->x.getId()==(long)user_id).toList();
 	}
 
 }

@@ -1,5 +1,6 @@
 package tn.esprit.spring.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Table( name = "T_travel_favorite")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TravelFavorite {
+public class TravelFavorite implements Serializable {
 	  
 	   private static final long serialVersionUID = 1L;
 	    @Id
@@ -32,8 +33,8 @@ public class TravelFavorite {
 	    private Long id;
 	    @Column(name = "userid")
 	    private int userid;
-	    @Column(name = "idvoyage")
-	    private int idvoyage;
+	    @Column(name = "idtravel")
+	    private int idtravel;
 	    
 	    
 	    
