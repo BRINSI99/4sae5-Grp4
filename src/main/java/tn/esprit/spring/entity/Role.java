@@ -2,36 +2,48 @@ package tn.esprit.spring.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Role implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy =
-            GenerationType.AUTO)
-    private Long roleId;
-    private String name;
-    private String role;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long idRole;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private UserRole name;
 
+    public Role() {
 
-
-    class User implements Serializable {
-
-        @Id
-
-        @GeneratedValue(strategy =
-                GenerationType.AUTO)
-        private int id;
-        @Enumerated(EnumType.STRING)
-        private RoleName role;
     }
+
+    public Long getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Long idRole) {
+        this.idRole = idRole;
+    }
+
+    public UserRole getName() {
+        return name;
+    }
+
+    public void setName(UserRole name) {
+        this.name = name;
+    }
+
+
 }
