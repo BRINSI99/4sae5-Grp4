@@ -17,10 +17,10 @@ import tn.spring.entities.Status;
 
 public interface ReclamationsRepository extends JpaRepository<Reclamations, Integer>{
 	 
-	  @Query(value ="select * from Reclamations m where m.status like '%1%' and user_id=?1  ", nativeQuery = true)
-	    List<Reclamations> findMealByStatus1(Long user_id);
-	  @Query(value ="select * from Reclamations m where m.status like '%2%' and user_id=?1 ", nativeQuery = true)
-	    List<Reclamations> findMealByStatus2(Long user_id);
-	  @Query(value ="select * from Reclamations m where m.status like '%0%' and user_id=?1 ", nativeQuery = true)
-	    List<Reclamations> findMealByStatus0(Long user_id);
+	  @Query("select m from Reclamations as m where m.status ='Refused' and m.user.id=:user  ")
+	    List<Reclamations> findMealByStatus1(@Param("user") Long user);
+	  @Query("select m from Reclamations as m where m.status  ='Waiting' and m.user.id=:user  ")
+	    List<Reclamations> findMealByStatus2(@Param("user") Long user);
+	  @Query("select m from Reclamations as m where m.status ='Accepted	' and m.user.id=:user ")
+	    List<Reclamations> findMealByStatus0(@Param("user") Long user);
 }
