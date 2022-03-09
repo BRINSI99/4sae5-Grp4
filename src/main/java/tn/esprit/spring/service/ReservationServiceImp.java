@@ -1,21 +1,29 @@
 package tn.esprit.spring.service;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
+
 
 import lombok.extern.slf4j.Slf4j;
 import tn.esprit.spring.Repository.ReservationRepository;
 import tn.esprit.spring.entity.Reservation;
 import tn.esprit.spring.entity.StatistiqueReservation;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BarcodeQRCode;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 
 
 
@@ -39,7 +47,48 @@ public class ReservationServiceImp implements IReservationService {
 
 	@Override
 	public Reservation addReservation(Reservation R) {
-		
+
+        try {
+            // creation of the document with a certain size and certain margins
+            Document document = new Document(PageSize.A4, 20, 20, 20, 20);
+
+                // write the all into a file and save it.
+            PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\PC\\Desktop\\PdfFiles\\Reservation.pdf"));
+
+            document.open();
+            //Title
+            Paragraph title = new Paragraph("Resevation succes");
+            Date date = new Date(System.currentTimeMillis());
+            Paragraph d = new Paragraph(date.toString());
+            title.setAlignment(Element.ALIGN_CENTER);
+            d.setAlignment(Element.ALIGN_CENTER);
+          
+        	FileSystemResource file = new FileSystemResource(new File("C:\\Users\\PC\\Desktop\\Stoage\\logo.jpg"));
+    
+            Paragraph contact = new Paragraph("Merci, votre réservation a été effectuée avec succès! : ");
+            contact.setAlignment(Element.ALIGN_CENTER);
+            //Generating QrCode
+            BarcodeQRCode barcodeQRCode = new BarcodeQRCode("Hana@gmail.com", 1000, 1000, null);
+            Image codeQrImage = barcodeQRCode.getImage();
+            codeQrImage.scaleAbsolute(300, 300);
+            codeQrImage.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+      
+            document.add(d);
+          
+            document.add(contact);
+            document.add(codeQrImage);
+        
+            document.close();
+
+            System.out.println("Pdf Generated successfully.");
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 		return reservationRepository.save(R);
 	}
 
@@ -66,7 +115,7 @@ public class ReservationServiceImp implements IReservationService {
 		
 	}
 	
-	public void pdfCreation()
+	/*public void pdfCreation()
 	{
 		String filepath="C:\\Users\\PC\\Desktop\\PdfFiles\\SimplePdf.pdf";
 		
@@ -75,7 +124,7 @@ public class ReservationServiceImp implements IReservationService {
 			
 			PdfDocument pdfdoc=new PdfDocument(writer);
 			pdfdoc.addNewPage();
-			
+			Paragraph title = new Paragraph("");
 			Document document=new Document(pdfdoc);
 			document.close();
 		
@@ -84,7 +133,7 @@ public class ReservationServiceImp implements IReservationService {
 		}
 	}
 
-
+*/
 
 	@Override
 	public List<StatistiqueReservation> statereservation() {

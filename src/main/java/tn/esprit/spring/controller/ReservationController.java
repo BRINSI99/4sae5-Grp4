@@ -58,7 +58,7 @@ public class ReservationController {
 					reservationService.addReservation(r);
 					return r;
 					}	
-				 // http://localhost:8089/SpringMVC/pdf/reservation
+			/*	 // http://localhost:8089/SpringMVC/pdf/reservation
 				@PostMapping("/pdf/reservation")
 				@ResponseBody
 				public String getPdfReservation()
@@ -66,7 +66,7 @@ public class ReservationController {
 					reservationService.pdfCreation();
 					return "pdf created successfully";
 					}
-			
+			*/
 				// http://localhost:8089/SpringMVC/remove-reservation/{reservation-id}
 				@DeleteMapping("/remove-reservation/{reservation-id}")
 				@ResponseBody
@@ -81,6 +81,7 @@ public class ReservationController {
 				return reservationService.updateReservation(r);
 
 				}
+				// http://localhost:8089/SpringMVC/stat-reservation
 				
 				@RequestMapping(value = "/stat-reservation", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 			    @ResponseBody

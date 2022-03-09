@@ -9,6 +9,10 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Getter
 @Setter
@@ -17,10 +21,12 @@ import javax.persistence.*;
 @Table( name = "T_TravelPlanning")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+
+
 public class TravelPlanning implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+  
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long Id;
@@ -32,12 +38,14 @@ public class TravelPlanning implements Serializable {
     private Date StartDate;
     @Temporal(TemporalType.DATE)
     private Date EndDate;
- 
+    @Column(name="likes")
+    private int likes;
+    @Column(name="share")
+    private int share;
     @Enumerated(EnumType.STRING)
     private MissionType missionType;
-
-
-
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="travels")
     private Set<Reservation> reservations;
 

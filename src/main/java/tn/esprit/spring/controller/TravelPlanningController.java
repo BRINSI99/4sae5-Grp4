@@ -1,5 +1,6 @@
 package tn.esprit.spring.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,10 +8,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,13 +26,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import tn.esprit.spring.entity.Critere;
 import tn.esprit.spring.entity.SearchCritere;
-import tn.esprit.spring.entity.TravelExcel;
-import tn.esprit.spring.entity.TravelPlanning;
 
+import tn.esprit.spring.entity.TravelPlanning;
+import tn.esprit.spring.service.SearchCritereServiceImpl;
 import tn.esprit.spring.service.TravelPlanningServiceImp;
 
 @RestController
@@ -33,6 +47,10 @@ public class TravelPlanningController {
 	@Autowired
 	TravelPlanningServiceImp travelPlanningService;
 	
+	@Autowired	
+	SearchCritereServiceImpl searchCritereServiceImpl;
+	
+	@Autowired  ServletContext context;
 	
 	// http://localhost:8089/SpringMVC/retrieve-all-travels
 
@@ -54,19 +72,29 @@ public class TravelPlanningController {
 	// http://localhost:8089/SpringMVC/retrieve-travel-critere
 		@PostMapping("/retrieve-travel-critere")
 		@ResponseBody
-		public Map<TravelPlanning, Integer> retrieveTravelPlanningByCritere(@RequestBody SearchCritere t) {
+		public Map<TravelPlanning, Integer> retrieveTravelPlanningByCritere(@RequestBody Critere t) {
 			Map<TravelPlanning,Integer> scores=new HashMap<TravelPlanning, Integer>();
+			SearchCritere destination=searchCritereServiceImpl.getScoreCritereById(1);
+			SearchCritere duration=searchCritereServiceImpl.getScoreCritereById(2);
+			SearchCritere durrationDiff=searchCritereServiceImpl.getScoreCritereById(3);
+			SearchCritere mission=searchCritereServiceImpl.getScoreCritereById(4);
+			SearchCritere like=searchCritereServiceImpl.getScoreCritereById(5);
+			SearchCritere share=searchCritereServiceImpl.getScoreCritereById(6);
+			SearchCritere valid=searchCritereServiceImpl.getScoreCritereById(7);
 			for(TravelPlanning travel : travelPlanningService.getAllTravelPlanning()) {
 				int score=0;
-				if(travel.getDestination().compareTo(t.getDest())==0) {
-					score=score+500;
+				
+				if(travel.getDestination().compareTo(destination.getName())==0) {
+					score=score+destination.getScore();
 				}
 				int diffDuration=Math.abs(travel.getDuration()-t.getDuration());
-				score=score+400 -(400*diffDuration);
+				score=score+duration.getScore() -(durrationDiff.getScore()*diffDuration);
 				if(travel.getMissionType().compareTo(t.getMission())==0) {
-					score=score+200;
+					score=score+mission.getScore();
 				}
-			    if(score>=400) {
+				score=score+like.getScore()*travel.getLikes();
+				score=score+share.getScore()*travel.getShare();
+			    if(score>=valid.getScore()) {
 					scores.put(travel, score);
   	
 			    }
@@ -84,6 +112,9 @@ public class TravelPlanningController {
 		return t;
 		}	
 	
+	
+	
+	
 	// http://localhost:8089/SpringMVC/remove-travel/{travel-id}
 	@DeleteMapping("/remove-travel/{travel-id}")
 	@ResponseBody
@@ -99,23 +130,6 @@ public class TravelPlanningController {
 		return travelPlanningService.updateTravelPlanning(t);
 
 		}
-		
-		
-	
-		@GetMapping("/articles/export/excel")
-	    public void exportToExcel(HttpServletResponse response) throws IOException {
-	    	System.out.println("Export to Excel ...");
-	        response.setContentType("application/octet-stream");
-	        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-	        String currentDateTime = dateFormatter.format(new Date());
-	        String headerKey = "Content-Disposition";
-	        String headerValue = "attachment; filename=articles_" + currentDateTime + ".xlsx";
-	        response.setHeader(headerKey, headerValue);
-	        List<TravelPlanning> listTravels = travelPlanningService.getAllTravelPlanning();
-	        TravelExcel excel = new TravelExcel(listTravels);
-	        excel.export(response);    
-	    }  
-		
 		
 	
 	

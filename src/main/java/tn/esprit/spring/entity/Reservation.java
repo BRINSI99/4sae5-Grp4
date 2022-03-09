@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Getter
 @Setter
@@ -28,8 +30,10 @@ public class Reservation implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date ReservationDate;
 
+    @JsonIgnore
     @ManyToOne
     TravelPlanning travels;
+    @JsonIgnore
     @ManyToOne
     User users;
 

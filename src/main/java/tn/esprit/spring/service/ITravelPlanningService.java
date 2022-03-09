@@ -16,7 +16,7 @@ public interface ITravelPlanningService {
 		
 	    void deleteTravelPlanningById(long Id);
 	    
-	    TravelPlanning getTravelPlanningByDestination(String Destination);
+	  
 	    
 	    
 

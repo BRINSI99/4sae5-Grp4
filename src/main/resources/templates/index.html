@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Demo Page</title>
+</head>
+<body>
+
+	<a href="${pageContext.request.contextPath }/demo?lang=en">English</a> |
+	<a href="${pageContext.request.contextPath }/demo?lang=fr">French</a> |
+	<a href="${pageContext.request.contextPath }/demo?lang=de">German</a>
+	<br>
+	<s:message code="greeting"></s:message>
+
+</body>
+</html>
